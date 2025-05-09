@@ -13,3 +13,4 @@ OOP_projects for 11 and 12th graders, short
 9. Template clasa Stiva
 10. Variabile statice + functii statice
 11. Clasa listelor simplu inlantuite
+12. Clasa LSI + Redefinirea operatorilor
