@@ -1,6 +1,6 @@
 # OOP_projects
 
-OOP_projects for 11 and 12th graders, short
+OOP_projects for 11 and 12th graders, small examples
 
 1. Numere Rationale
 2. Numere Complexe
