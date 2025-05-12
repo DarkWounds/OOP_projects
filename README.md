@@ -12,5 +12,4 @@ OOP_projects for 11 and 12th graders, small examples
 8. Intervale4 (Template Stiva)
 9. Template clasa Stiva
 10. Variabile statice + functii statice
-11. Clasa listelor simplu inlantuite
-12. Clasa LSI + Redefinirea operatorilor
+11. Clasa LSI + Redefinirea operatorilor
