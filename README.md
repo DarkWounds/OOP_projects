@@ -12,3 +12,4 @@ OOP_projects for 11 and 12th graders, small examples
 08. Template clasa Stiva
 09. Variabile statice + functii statice
 10. Clasa LSI + Redefinirea operatorilor
+11. Matrici patratice
