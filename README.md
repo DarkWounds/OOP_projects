@@ -2,14 +2,13 @@
 
 OOP_projects for 11 and 12th graders, small examples
 
-1. Numere Rationale
-2. Numere Complexe
-3. Stiva
-4. Vector -fara distructor
-5. Vector -cu distructor
-6. Template (suma vector)
-7. Template clasa Stiva
-8. Intervale4 (Template Stiva)
-9. Template clasa Stiva
-10. Variabile statice + functii statice
-11. Clasa LSI + Redefinirea operatorilor
+01. Numere Rationale
+02. Numere Complexe
+03. Stiva
+04. Vector constructori + distructori
+05. Template (suma vector)
+06. Template clasa Stiva
+07. Intervale4 (Template Stiva)
+08. Template clasa Stiva
+09. Variabile statice + functii statice
+10. Clasa LSI + Redefinirea operatorilor
