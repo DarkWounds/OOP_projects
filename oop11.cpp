@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-/// ----- Clasa listelor simplu inlantuite
+ /// ----- Clasa listelor simplu inlantuite
 class Nod
 {
 public:
@@ -154,18 +154,33 @@ public:
     dar se comporta ca si cum ar fi membre in clasa, adica
     au acces inclusiv la datele private.
     */
-    friend bool operator==(LSI A, LSI B)
+    friend bool operator==(LSI &A, LSI &B)
     {
         if (A.Count() != B.Count()) return 0;
         Nod *p = A.head, *q = B.head;
         while (p != NULL)
         {
             if (p->info != q->info) return 0;
-            cout << p->info << " " << q->info << "\n";
             p = p->leg;
             q = q->leg;
         }
         return 1;
+    }
+
+    friend ostream& operator<<(ostream &out, LSI &A)
+    {
+        for (Nod *p = A.head; p != NULL; p = p->leg)
+            out << p->info << " ";
+        out << "\n";
+        return out;
+    }
+    /// atribuirea
+    LSI& operator=(LSI &A)
+    {
+        head = NULL;
+        for (int i = 1; i <= A.Count(); i++)
+            AddEnd(A[i]);
+        return *this;
     }
 };
 
@@ -204,5 +219,9 @@ int main()
     if (w == q) cout << "Egale\n";
     else cout << "Diferite\n";
 
+    cout << w;
+    LSI x;
+    x = w;
+    cout << x;
     return 0;
 }
