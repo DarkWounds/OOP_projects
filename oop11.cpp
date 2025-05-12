@@ -1,227 +1,107 @@
 #include <bits/stdc++.h>
 using namespace std;
- /// ----- Clasa listelor simplu inlantuite
-class Nod
-{
-public:
-    int info;
-    Nod *leg;
-    Nod(int cheie)
-    {
-        info = cheie;
-        leg = NULL;
-    }
-};
 
-class LSI
+/// clasa matricelor patratice
+class Matrix
 {
 private:
-    Nod *head;/// pointerul la inceputul listei
-    int n; /// numarul de noduri din lista
+    int a[102][102];
+    int n;
 public:
-    /// ----------- Constructorii -----------
-    LSI()
+    Matrix(int dim, int val)
     {
-        head = NULL;
-        n = 0;
+        n = dim;
+        for (int i = 1; i <= n; i++)
+            for (int j = 1; j <= n; j++)
+                a[i][j] = val;
     }
-
-    LSI(const char fisIn[])
+    Matrix(const char fisIn[])
     {
-        int x;
         ifstream fin(fisIn);
-        head = NULL;
-        n = 0;
-        /**
-        while (fin >> x)
-            AddEnd(x);
-        */
-        fin >> x;
-        Add(x);
-        Nod *p = head; /// p este un pointer la ultimul nod
-        while (fin >> x)
-        {
-            Add(p, x);
-            p = p->leg;
-        }
+        fin >> n;
+        for (int i = 1; i <= n; i++)
+            for (int j = 1; j <= n; j++)
+                fin >> a[i][j];
         fin.close();
     }
-
-    /// ----------- Destructorul ----------------
-    ~LSI()
+    Matrix(int dim)
     {
-        while (n > 0)
-            Erase();
+        n = dim;
+        for (int i = 1; i <= n; i++)
+            for (int j = 1; j <= n; j++)
+                a[i][j] = rand() % 100;
     }
-
-    /// --------- Metodele -----------------
-    /// adaugare la inceputul listei
-    void Add(int cheie)
+    Matrix(Matrix &A)
     {
-        Nod *p = new Nod(cheie);
-        p->leg = head;
-        head = p;
-        n++;
+        n = A.n;
+        for (int i = 1; i <= n; i++)
+            for (int j = 1; j <= n; j++)
+                a[i][j] = A.a[i][j];
     }
-    /// adauga dupa nodul p un nou nod de cheie data
-    void Add(Nod *p, int cheie)
-    {
-        Nod *q = new Nod(cheie);
-        q->leg = p->leg;
-        p->leg = q;
-        n++;
-    }
-
-    /// sterge primul nod
-    void Erase()
-    {
-        if (head == NULL) return;
-        Nod *p = head;
-        head = head->leg;
-        delete p;
-        n--;
-    }
-
-    /// sterge nodul de dupa p
-    void Erase(Nod *p)
-    {
-        if (p->leg == NULL) return;
-        Nod *q = p->leg;
-        p->leg = q->leg;
-        delete q;
-        n--;
-    }
-
-    void Afis()
-    {
-        for (Nod *p = head; p != NULL; p = p->leg)
-            cout << p->info << " ";
-        cout << "\n\n";
-    }
-
-    int Count()
+    int Size()
     {
         return n;
     }
-
-    void AddEnd(int cheie)
+    friend ostream& operator<<(ostream &out, Matrix &A)
     {
-        if (head == NULL)
+        for (int i = 1; i <= A.Size(); i++)
         {
-            Add(cheie);
-            return;
+            for (int j = 1; j <= A.Size(); j++)
+                out << A.a[i][j] << " ";
+            out << "\n";
         }
-        /// ne pozitionam pe ultimul nod, apoi inseram dupa el
-        Nod *p = head;
-        while (p->leg != NULL)
-            p = p->leg;
-        Add(p, cheie);
-    }
-
-    /** Adauga un al k-lea de cheie x
-        - daca k<=1, facem adaugarea la inceput
-        - daca lista are mai putin de k noduri,
-          atunci adaugam la final
-    */
-    void Add(int k, int x)
-    {
-        if (k <= 1)
-        {
-            Add(x);
-            return;
-        }
-        Nod *p;
-        for (p = head; p->leg != NULL && k > 2; p = p->leg)
-            k--;
-        Add(p, x);
-    }
-
-    /// ---------- redefinirea operatorilor -------------
-    int operator[](int i)
-    {
-        if (head == NULL) return INT_MIN;
-        if (i <= 0 || i > n) return INT_MIN;
-        /// ne pozitionam pe al i-lea nod:
-        Nod *p;
-        for (p = head; i > 1; p = p->leg)
-            i--;
-        return p->info;
-    }
-    /**
-    Daca la redefinirea operatorului avem mai multi parametri,
-    atunci functia o definim ca friend.
-    Functiile friend nu apartin clasei unde se definesc,
-    dar se comporta ca si cum ar fi membre in clasa, adica
-    au acces inclusiv la datele private.
-    */
-    friend bool operator==(LSI &A, LSI &B)
-    {
-        if (A.Count() != B.Count()) return 0;
-        Nod *p = A.head, *q = B.head;
-        while (p != NULL)
-        {
-            if (p->info != q->info) return 0;
-            p = p->leg;
-            q = q->leg;
-        }
-        return 1;
-    }
-
-    friend ostream& operator<<(ostream &out, LSI &A)
-    {
-        for (Nod *p = A.head; p != NULL; p = p->leg)
-            out << p->info << " ";
         out << "\n";
         return out;
     }
-    /// atribuirea
-    LSI& operator=(LSI &A)
+
+    Matrix operator=(const Matrix& other)
     {
-        head = NULL;
-        for (int i = 1; i <= A.Count(); i++)
-            AddEnd(A[i]);
+        n = other.n;
+        for (int i = 1; i <= n; i++)
+            for (int j = 1; j <= n; j++)
+                a[i][j] = other.a[i][j];
         return *this;
     }
+
+    Matrix& operator+(Matrix& other)
+    {
+        Matrix rezultat(n, 0);
+        for (int i = 1; i <= n; ++i)
+            for (int j = 1; j <= n; ++j)
+                rezultat.a[i][j] = a[i][j] + other.a[i][j];
+
+        return rezultat;
+    }
+    /**
+    Matrix operator +(const Matrix &A)
+    {
+        Matrix C(n, 0);
+        for (int i = 1; i <= n; i++)
+            for (int j = 1; j <= n; j++)
+                C.a[i][j] = A.a[i][j] + a[i][j];
+        return C;
+    }
+
+    Matrix& operator=(Matrix &A)
+    {
+        n = A.n;
+        for (int i = 1; i <= A.Size(); i++)
+            for (int j = 1; j <= A.Size(); j++)
+                a[i][j] = A.a[i][j];
+        return *this;
+    }
+    */
 };
 
 int main()
 {
-    LSI L;
-    for (int i = 20; i >= 1; i--)
-        L.Add(i * i);
-    L.Afis();
-    cout << L.Count() << "\n";
-    L.AddEnd(777);
-    L.Afis();
-    cout << L.Count() << "\n";
-
-    LSI w("lista.in");
-    w.Afis();
-    w.Add(100, 112);
-    w.Afis();
-    w.Add(0, 666);
-    w.Afis();
-    w.Add(5, 888);
-    w.Afis();
-    /// afisare altfel:
-    for (int i = 1; i <= w.Count(); i++)
-        cout << w[i] << " ";
-
-    LSI q;
-    for (int i = 1; i <= w.Count(); i++)
-        q.AddEnd(w[i]);
-
-    cout << "\n\n";
-    int v[] = {1,2,3,4,5,6,7};
-    for (int i = 0; i < 7; i++)
-        cout << i[v] << " ";
-
-    if (w == q) cout << "Egale\n";
-    else cout << "Diferite\n";
-
-    cout << w;
-    LSI x;
-    x = w;
-    cout << x;
+    srand(time(0));
+    Matrix A(6);
+    cout << A;
+    Matrix B(6);
+    cout << B;
+    Matrix C(A.Size(), 0);
+    C = A + B;
+    cout << C;
     return 0;
 }
