@@ -118,28 +118,54 @@ public:
         Add(p, cheie);
     }
 
-    /** Adauga cheia x dupa al k-lea nod
+    /** Adauga un al k-lea de cheie x
         - daca k<=1, facem adaugarea la inceput
         - daca lista are mai putin de k noduri,
           atunci adaugam la final
     */
     void Add(int k, int x)
     {
-        if(k <= 1)
-            Add(x);
-        else if (k >= n)
-            AddEnd(x);
-        else
+        if (k <= 1)
         {
-            Nod *p = head;
-            while(k > 1)
-            {
-                k--;
-                p = p -> leg;
-            }
-            Add(p, x);
+            Add(x);
+            return;
         }
+        Nod *p;
+        for (p = head; p->leg != NULL && k > 2; p = p->leg)
+            k--;
+        Add(p, x);
+    }
 
+    /// ---------- redefinirea operatorilor -------------
+    int operator[](int i)
+    {
+        if (head == NULL) return INT_MIN;
+        if (i <= 0 || i > n) return INT_MIN;
+        /// ne pozitionam pe al i-lea nod:
+        Nod *p;
+        for (p = head; i > 1; p = p->leg)
+            i--;
+        return p->info;
+    }
+    /**
+    Daca la redefinirea operatorului avem mai multi parametri,
+    atunci functia o definim ca friend.
+    Functiile friend nu apartin clasei unde se definesc,
+    dar se comporta ca si cum ar fi membre in clasa, adica
+    au acces inclusiv la datele private.
+    */
+    friend bool operator==(LSI A, LSI B)
+    {
+        if (A.Count() != B.Count()) return 0;
+        Nod *p = A.head, *q = B.head;
+        while (p != NULL)
+        {
+            if (p->info != q->info) return 0;
+            cout << p->info << " " << q->info << "\n";
+            p = p->leg;
+            q = q->leg;
+        }
+        return 1;
     }
 };
 
@@ -156,8 +182,27 @@ int main()
 
     LSI w("lista.in");
     w.Afis();
+    w.Add(100, 112);
+    w.Afis();
+    w.Add(0, 666);
+    w.Afis();
+    w.Add(5, 888);
+    w.Afis();
+    /// afisare altfel:
+    for (int i = 1; i <= w.Count(); i++)
+        cout << w[i] << " ";
 
-    L.Add(5, 505);
-    L.Afis();
+    LSI q;
+    for (int i = 1; i <= w.Count(); i++)
+        q.AddEnd(w[i]);
+
+    cout << "\n\n";
+    int v[] = {1,2,3,4,5,6,7};
+    for (int i = 0; i < 7; i++)
+        cout << i[v] << " ";
+
+    if (w == q) cout << "Egale\n";
+    else cout << "Diferite\n";
+
     return 0;
 }
