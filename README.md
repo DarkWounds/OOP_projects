@@ -13,3 +13,4 @@ OOP_projects for 11 and 12th graders, small examples
 09. Variabile statice + Functii statice
 10. Clasa LSI + Redefinirea operatorilor
 11. Matrici patratice
+12. Hash Table
