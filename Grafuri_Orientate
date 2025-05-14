@@ -1,0 +1,46 @@
+#include <iostream>
+using namespace std;
+
+struct Graf
+{
+    int  cost, viz;
+};
+
+class Grafuri_Orientate
+{
+private:
+    int n, m, a[103][103], d[103];
+public:
+    Grafuri_Orientate(const char fisIn[])
+    {
+        ifstream fin(fisIn);
+        int i, j;
+        fin >> n >> m;
+        for(int p = 1; p <= m; p++)
+        {
+            fin >> i >> j;
+            a[i][j] = 1; 
+        }
+        fin.close();
+    }
+    void AddMuchie(int x, int y)
+    {
+        a[x][y] = 1;
+    }
+    Grafuri_Orientate& operator=(const Grafuri_Orientate& b)
+    {
+        n = b.n;
+        for (int i = 1; i <= n; i++)
+            for (int j = 1; j <= n; j++)
+                a[i][j] = b.a[i][j];
+        return *this;
+
+    }
+};
+
+
+int main()
+{
+    
+    return 0;
+}

@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "grafuri_orientate": "cpp",
+        "iostream": "cpp",
+        "iosfwd": "cpp"
+    }
+}
