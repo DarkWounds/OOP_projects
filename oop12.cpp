@@ -64,6 +64,20 @@ public:
                     (h[r][i].fr)--;
             }
     }
+/// sterge toate listele hash-ului
+    void ClearAll()
+    {
+        for (int i = 0; i < P; i++)
+            h[i].clear();
+    }
+
+int operator[](int x)
+    {
+        int r = x % P;
+        for (auto e : h[r])
+            if (e.val == x) return e.fr;
+        return 0;
+    }
 };
 
 class H2 : public HashTable
@@ -94,5 +108,12 @@ int main()
     }
     /// caut in hash cea mai mica valoare care apare o singura data
     cout << w.SearchMinFr1();
+    /**
+    Test ClearAll
+    HashTable a;
+    a.Add(23); a.Add(23); a.Add(35);
+    a.Add(23); a.Add(3); a.Add(35);
+    cout << a[23] << " " << a[35] << " " << a[100] << "\n";
+    */
     return 0;
 }
