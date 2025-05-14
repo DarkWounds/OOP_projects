@@ -2,22 +2,6 @@
 #define nrprim 333367
 using namespace std;
 
-/**
-Hash Table
----------
-
-P = 7
-L[0]: MMM 28
-L[1]: BBB 57, DDD 99
-L[2]: FFF 44
-L[3]: GGG 31, KKK 38, LLL 59
-L[4]: CCC 11, EEE 25, HHH 67, NNN 46
-L[5]: III 19
-L[6]: AAA 34, JJJ 83
-                                  i
-h[r] : (a, 3) (b, 5), (d, 17), (g,1), (e, 6), (f, 9)
-*/
-
 struct Pereche
 {
     int val, fr;
@@ -25,7 +9,7 @@ struct Pereche
 
 class HashTable
 {
-private:
+protected:
     int P;
     vector<Pereche> h[nrprim];
 public:
@@ -80,7 +64,11 @@ public:
                     (h[r][i].fr)--;
             }
     }
+};
 
+class H2 : public HashTable
+{
+public:
     int SearchMinFr1()
     {
         int mn = 2000000001;
@@ -97,7 +85,7 @@ public:
 int main()
 {
     int i, n, x;
-    HashTable w;
+    H2 w;
     cin >> n;
     for (i = 1; i <= n; i++)
     {
