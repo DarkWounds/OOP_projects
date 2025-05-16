@@ -21,6 +21,7 @@ ofstream fout("complementar.out");
 
 41, 22, 22, 63, 0, 41, 22, 22, 41, 22, 22
 Cate perechi (a[i], a[j]) au a[i]^a[j] = 63
+add .
 
 cnt = 0+1+1+0+1+2+
 */
