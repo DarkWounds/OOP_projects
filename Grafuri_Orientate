@@ -1,4 +1,5 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <fstream>
 #define Marime 200000
 
 using namespace std;
@@ -11,7 +12,6 @@ private:
     int de[Marime], di[Marime]; ///Grad extern si intern
     int v[Marime], len = 0 ; ///Topologic
     int nrctc = 0;/// Nr componente conexe
-    const int oo = 1e9;
 public:
     Grafuri_Orientate(const char fisIn[])
     {
@@ -234,24 +234,6 @@ public:
             cout << "Nu exista" << "\n";
     }
 
-    void Grafuri_Orientate::Kosaraju()
-    {
-        SortTop();
-        Reset();
-        for (int i = n; i >= 1; i--)
-            if (viz[v[i]] == 0)
-            {
-                nrctc++;
-                DFS1(v[i]);
-            }
-    }
-
-    void Grafuri_Orientate::AfisTC()
-    {
-        Kosaraju();
-        cout << nrctc << "\n";
-    }
-
     void Grafuri_Orientate::AfisArceInutile()
     {
         
@@ -264,36 +246,6 @@ public:
             for (int i = 1; i <= n; i++)
                 if (viz[k] != viz[i])
                     cout << k << " " << i << "\n";
-    }
-
-    void Grafuri_Orientate::Dijkstra(int k)
-    {
-        int i, mn;
-        Reset();
-        for (i = 1; i <= n; i++)
-        {
-            d[i] = oo;
-            viz[i] = pred[i] = 0;
-        }
-        d[k] = 0;
-        for (int pas = 1; pas <= n; pas++)
-        {
-            k = 0; mn = oo;
-            for (i = 1; i <= n; i++)
-                if (!viz[i] && d[i] < mn)
-                {
-                    mn = d[i];
-                    k = i;
-                }
-            if (d[k] == oo) return;
-            viz[k] = 1;
-            for (i = 1; i <= n; i++)
-                if (a[k][i].cost < oo && a[k][i].cost > 0 && d[i] > d[k] + a[k][i].cost)
-                {
-                    d[i] = d[k] + a[k][i].cost;
-                    pred[i] = k;
-                }
-        }
     }
 
     void Grafuri_Orientate::Citire()
