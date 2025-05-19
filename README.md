@@ -15,3 +15,4 @@ OOP_projects for 11 and 12th graders, small examples
 11. Matrici patratice
 12. h2 (Hash Table + Mostenire)
 13. SumUnite (Hash Table)
+14. Complementar (Hash Table)
