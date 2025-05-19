@@ -2,46 +2,32 @@
 #define Marime 200000
 
 using namespace std;
-struct Graf
-{
-    int  cost, muchie;
-};
-
-struct KruskalStruct
-{
-    int x, y, c, viz;
-};
 
 class Grafuri_Orientate
 {
 private:
-    Graf a[Marime][Marime];
+    int a[Marime][Marime];
     int n, m, d[Marime], viz[Marime], pred[Marime];
     int de[Marime], di[Marime]; ///Grad extern si intern
     int v[Marime], len = 0 ; ///Topologic
     int nrctc = 0;/// Nr componente conexe
     const int oo = 1e9;
-    /// -------Kruskal-----
-    KruskalStruct A[103];
-    int t[105], costTotal = 0;
 public:
     Grafuri_Orientate(const char fisIn[])
     {
         ifstream fin(fisIn);
-        int i, j, c;
+        int i, j;
         fin >> n >> m;
         for(int p = 1; p <= m; p++)
         {
-            fin >> i >> j >> c;
-            a[i][j].muchie = 1; 
-            a[i][j].cost = c;
+            fin >> i >> j;
+            a[i][j] = 1; 
         }
         fin.close();
     }
 
     void Citire();
     void AddMuchie(int i, int j);
-    void AddMuchie(int i, int j, int c);
     void StergeMuchie(int i, int j);
     void Grade();
     int Size();
@@ -52,27 +38,18 @@ public:
     void DFS1(int k);
     void Verificare();
     int Vizitate();
-    void AfisMatriceFaraCost();
+    void AfisMatrice();
     void SortTop();
     void AfisTopologic();
-    void AfisMatriceCost();
     void AfisParcurgeri();
-    void Dijkstra(int k);
     void AfisArceInutile();
     void AfisTC();
-    void Kosaraju();
     void AfisVPrietene();
     void AfisCicluri();
     void AfisGrade();
     void MersCircuite(int i, int j);
     void AfisCircuite();
     void MersCicluri(int i, int j);
-    void TransferaMatriceInVector(int n, Graf a[Marime][Marime], KruskalStruct A[]);
-    void Union(int x, int y);
-    void AfisareKruskal();
-    int Find(int x);
-    void Kruskal();
-    bool Compar(KruskalStruct e1, KruskalStruct e2);
 
     Grafuri_Orientate& operator=(const Grafuri_Orientate& B)
     {
@@ -94,7 +71,7 @@ public:
     {
         for(int i = 1; i <= n; i++)
             for(int j = 1; j <= n; j++)
-                a[i][j].muchie = a[i][j].cost = d[j] = viz[j] = 0;
+                a[i][j] = d[j] = viz[j] = 0;
     }
 
     void Grafuri_Orientate::Reset()
@@ -112,7 +89,7 @@ public:
         {
             k = q[pr++];
             for(int i = 1; i <= n; i++)
-                if(a[k][i].muchie && !viz[i])
+                if(a[k][i] && !viz[i])
                 {
                     viz[i] = 1;
                     q[++ul] = i;
@@ -125,7 +102,7 @@ public:
     {
         viz[k] = 1;
         for (int i = 1; i <= n; i++)
-            if (!viz[i] && a[k][i].muchie) 
+            if (!viz[i] && a[k][i]) 
                 DFS(i);
         v[++len] = k;
     }
@@ -134,7 +111,7 @@ public:
     {
         viz[k] = nrctc;
         for (int i = 1; i <= n; i++)
-            if (!viz[i] && a[k][i].muchie) 
+            if (!viz[i] && a[k][i]) 
                 DFS1(i);
     }
 
@@ -153,22 +130,12 @@ public:
         return 1;
     }
 
-    void Grafuri_Orientate::AfisMatriceFaraCost()
+    void Grafuri_Orientate::AfisMatrice()
     {
         for(int i = 1; i <= n; i++)
         {
             for(int j = 1; j <= n; j++)
-                cout << a[i][j].muchie << " ";
-            cout << "\n";
-        }
-    }
-
-    void Grafuri_Orientate::AfisMatriceCost()
-    {
-        for(int i = 1; i <= n; i++)
-        {
-            for(int j = 1; j <= n; j++)
-                cout << a[i][j].cost << " ";
+                cout << a[i][j] << " ";
             cout << "\n";
         }
     }
@@ -219,7 +186,7 @@ public:
     void Grafuri_Orientate::MersCircuite(int i, int j)
     {
     for(int k = 1; k <= n; k++)
-        if(a[j][k].muchie == 1 && a[k][i].muchie == 1)
+        if(a[j][k] == 1 && a[k][i] == 1)
             cout << i << " " << j << " " << k << "\n";
     }
 
@@ -227,14 +194,14 @@ public:
     {
         for(int i = 1; i <= n; i++)
             for(int j = 1; j <= n; j++)
-                if(a[i][j].muchie)
+                if(a[i][j])
                     MersCircuite(i, j);
     }
 
     void Grafuri_Orientate::MersCicluri(int i, int j)
     {
         for(int k = 1; k <= n; k++)
-            if((a[i][k].muchie == 1 || a[k][i].muchie == 1) && (a[k][j].muchie == 1 || a[j][k].muchie == 1))
+            if((a[i][k] == 1 || a[k][i] == 1) && (a[k][j] == 1 || a[j][k] == 1))
                 cout << i << " " << j << " " << k << "\n";
     }
 
@@ -242,7 +209,7 @@ public:
     {
         for(int i = 1; i <= n; i++)
             for(int j = 1; j <= n; j++)
-                if(a[i][j].muchie || a[j][i].muchie)
+                if(a[i][j] || a[j][i])
                     MersCicluri(i, j);
     }
 
@@ -335,27 +302,19 @@ public:
         cin >> n >> m;
         for(int p = 1; p <= m; p++)
         {
-            cin >> i >> j >> c;
-            a[i][j].muchie = 1; 
-            a[i][j].cost = c;
+            cin >> i >> j;
+            a[i][j] = 1; 
         }   
     }
 
     void Grafuri_Orientate::AddMuchie(int i, int j)
     {
-        a[i][j].muchie = 1;
-    }
-
-    void Grafuri_Orientate::AddMuchie(int i, int j, int c)
-    {
-        a[i][j].muchie = 1;
-        a[i][j].cost = c;
+        a[i][j] = 1;
     }
 
     void Grafuri_Orientate::StergeMuchie(int i, int j)
     {
-        a[i][j].muchie = 0;
-        a[i][j].cost = 0;
+        a[i][j] = 0;
     }
 
     void Grafuri_Orientate::Grade()
@@ -363,78 +322,11 @@ public:
         for(int i = 1; i <= n; i++)
             for(int j = 1; j <= n; j++)
             {
-                if(a[i][j].muchie)
-                    di[i] += a[i][j].muchie;
-                if(a[j][i].muchie)
-                    de[i] += a[j][i] .muchie;
+                if(a[i][j])
+                    di[i] += a[i][j];
+                if(a[j][i])
+                    de[i] += a[j][i];
             }
-    }
-
-    void Grafuri_Orientate::TransferaMatriceInVector(int n, Graf a[Marime][Marime], KruskalStruct A[]) 
-    {
-        for (int i = 1; i <= n; i++)
-         {
-            for (int j = i + 1; j <= n; j++)
-             {
-                if (a[i][j].muchie == 1) 
-                {  
-                    A[m].x = i;
-                    A[m].y = j;
-                    A[m].c = a[i][j].cost;
-                    A[m].viz = 0;
-                }
-            }
-        }
-    }
-
-    void Grafuri_Orientate::Union(int x, int y)
-    {
-        t[y] = x;
-    }
-
-    bool Grafuri_Orientate::Compar(KruskalStruct e1, KruskalStruct e2)
-    {
-        return e1.c < e2.c;
-    }
-
-    int Grafuri_Orientate::Find(int x)
-    {
-        int rad = x, y;
-        while(t[rad] != 0)
-            rad = t[rad];
-        while(x != rad)
-        {
-            y = t[x];
-            t[x] = rad;
-            x = y;
-        }
-        return rad;
-    }
-
-    void Grafuri_Orientate::Kruskal()
-    {
-        int x, y, nrcc = n;
-        sort(a + 1, a + 1 + m, Compar);
-        for(int i = 1; i <= m && nrcc > 1; i++)
-        {
-            x = Find(A[i].x);
-            y = Find(A[i].y);
-            if(x != y)
-            {
-                Union(x, y);
-                nrcc--;
-                A[i].viz = 1;
-                costTotal += A[i].c;
-            }
-        }
-    }
-
-    void Grafuri_Orientate::AfisareKruskal()
-    {
-        cout << costTotal << "\n";
-        for(int i = 1; i <= m; i++)
-            if(A[i].viz)
-                cout << A[i].x << " " << A[i].y << "\n";
     }
 
 int main()
