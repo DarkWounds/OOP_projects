@@ -17,4 +17,4 @@ OOP_projects for 11 and 12th graders, small examples
 13. SumUnite (Hash Table)
 14. Complementar (Hash Table)
 15. Forme Geometrice (Polimorfism + Mostenire -detaliat)
-16. Permutari
+16. Paranteze
