@@ -18,3 +18,5 @@ OOP_projects for 11 and 12th graders, small examples
 14. Complementar (Hash Table)
 15. Forme Geometrice (Polimorfism + Mostenire -detaliat)
 16. Paranteze
+17. Combinari
+18. descp2
