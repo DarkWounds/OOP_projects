@@ -4,15 +4,19 @@
 
 using namespace std;
 
+
 class Grafuri_Orientate
 {
 private:
-    int a[Marime][Marime];
+    int** a;
     int n, m, d[Marime], viz[Marime], pred[Marime];
     int de[Marime], di[Marime]; ///Grad extern si intern
     int v[Marime], len = 0 ; ///Topologic
     int nrctc = 0;/// Nr componente conexe
 public:
+    Grafuri_Orientate(int size);
+    ~Grafuri_Orientate();
+
     Grafuri_Orientate(const char fisIn[])
     {
         ifstream fin(fisIn);
@@ -61,6 +65,25 @@ public:
     }
 
 };
+
+    Grafuri_Orientate::Grafuri_Orientate(int size)
+    {
+        n = size;
+        a = new int*[n];
+        for (int i = 0; i < n; ++i)
+        {
+            a[i] = new int[n];
+            for (int j = 0; j < n; ++j)
+                a[i][j] = 0;
+        }
+    }
+
+    Grafuri_Orientate::~Grafuri_Orientate()
+    {
+        for (int i = 0; i < n; ++i)
+            delete[] a[i];
+        delete[] a;
+    }
 
     int Grafuri_Orientate::Size()
     {
@@ -236,7 +259,6 @@ public:
 
     void Grafuri_Orientate::AfisArceInutile()
     {
-        
         int cnt = 0;
         for (int k = 1; k <= n; k++)
             for (int i = 1; i <= n; i++)
@@ -279,6 +301,20 @@ public:
                 if(a[j][i])
                     de[i] += a[j][i];
             }
+    }
+
+    void Grafuri_Orientate::AfisTC()
+    {
+        for(int i = 1; i <= n; i++)
+            if(!viz[i])
+            {
+                DFS1(i);
+                nrctc++;
+            }
+        cout << nrctc << "\n";
+        for(int i = 1; i <= n; i++)
+            cout << viz[i] << " ";
+        cout << "\n";
     }
 
 int main()
