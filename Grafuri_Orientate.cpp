@@ -1,40 +1,32 @@
-#include <iostream>
-#include <fstream>
+#include <bits/stdc++.h>
+#define Marime 200003
 
 using namespace std;
 
+ifstream fin("topsort.in");
+ofstream fout("topsort.out");
 
 class Grafuri_Orientate
 {
 private:
-    int** a, * viz; ///Matrice de adiacenta si vector de vizitare
+    vector<int> *a; ///Matrice de adiacenta
+    int * viz; ///Vector de vizitare
     int n, m, * d; ///Numarul de noduri, numarul de muchii si vectorul de distante
     int * de, * di; ///Grad extern si intern
     int nrctc = 1; /// Nr componente conexe
-    int len = 0, * v; ///Topologic
+    int len = 0, v[Marime]; ///Topologic
     void Grade(); /// Calculeaza gradele de intrare si iesire pentru fiecare nod
 public:
     void SortTop(); ///Sortare topologica a nodurilor
 
     // Constructor si destructor pentru Grafuri_Orientate
-    Grafuri_Orientate(int size);
-    ~Grafuri_Orientate();
-
-    // Constructor care citeste din fisier
-    Grafuri_Orientate(const char fisIn[])
-    {
-        ifstream fin(fisIn);
-        int i, j;
-        fin >> n >> m;
-        for(int p = 1; p <= m; p++)
-        {
-            fin >> i >> j;
-            a[i][j] = 1; 
-        }
-        fin.close();
-    }
+    Grafuri_Orientate(int N, int M);
+    ///~Grafuri_Orientate();
 
     // Metodele clasei Grafuri_Orientate
+    int LungimeV();
+    void Citire(const char* fisIn);
+    int VTopologic(int i);
     int Dextern(int i);
     int Dintern(int i);
     int Distanta(int i);
@@ -64,38 +56,55 @@ public:
     }
 
     // Constructor pentru Grafuri_Orientate
-    Grafuri_Orientate::Grafuri_Orientate(int size)
+    Grafuri_Orientate::Grafuri_Orientate(int N, int M)
     {
-        n = size;
-        d = new int[n];
-        a = new int*[n];
-        de = new int[n];
-        di = new int[n];
-        viz = new int[n];
-        v = new int[n];
-        for (int i = 0; i < n; ++i)
+        n = N;
+        m = M;
+        d = new int[n + 1];
+        a = new vector<int>[n + 1]; // modificare aici!
+        de = new int[n + 1];
+        di = new int[n + 1];
+        viz = new int[n + 1];
+        for (int i = 0; i <= n; ++i)
             de[i] = di[i] = viz[i] = v[i] = 0;
-        for (int i = 0; i < n; ++i)
-        {
-            a[i] = new int[n];
-            for (int j = 0; j < n; ++j)
-                a[i][j] = 0;
-        }
     }
 
     // Destructor pentru Grafuri_Orientate
-    Grafuri_Orientate::~Grafuri_Orientate()
+   /*Grafuri_Orientate::~Grafuri_Orientate()
     {
-        for (int i = 0; i < n; ++i)
-            delete[] a[i];
+        cout << "Destructor called\n"; // Adaugă această linie pentru test
         delete[] a;
         delete[] de;
         delete[] di;
         delete[] viz;
-        delete[] v;
         delete[] d;
+    }*/
+
+    // Returneaza lungimea vectorului de sortare topologica
+    int Grafuri_Orientate::LungimeV()
+    {
+        return len;
     }
 
+    // Citeste un graf orientat dintr-un fisier
+    void Grafuri_Orientate::Citire(const char* fisIn)
+    {
+        ifstream fin_local(fisIn);
+        int i, j;
+        for(int p = 1; p <= m; p++)
+        {
+            fin_local >> i >> j;
+            a[i].push_back(j);
+        }
+        fin_local.close();
+        Grade();
+    }
+
+    //Returneaza nodul i in urma sortarii topologice
+    int Grafuri_Orientate::VTopologic(int i)
+    {
+        return v[i];
+    }
 
     //Returneaza gradul de iesire al nodului i
     int Grafuri_Orientate::Dextern(int i)
@@ -177,9 +186,9 @@ public:
     //Parcurgere in adancime(Deep First Search)
     void Grafuri_Orientate::DFS(int k)
     {
-        viz[k] = nrctc;
-        for (int i = 1; i <= n; i++)
-            if (!Viz(i) && a[k][i]) 
+        viz[k] = 1;
+        for (int i : a[k])
+            if (!viz[i])
                 DFS(i);
         v[++len] = k;
     }
@@ -198,56 +207,53 @@ public:
     int Grafuri_Orientate::Vizitate()
     {
         for(int i = 1; i <= n; i++)
-            if(Viz(i) == 0) return 0; 
+            if(Viz(i) == 0) return 0;
         return 1;
     }
 
-    //Sortare topologica a nodurilor
+    // Sortare topologica a nodurilor
     void Grafuri_Orientate::SortTop()
     {
+        len = 0;
         for(int i = 1; i <= n; i++)
-            if(!Viz(i)) 
+            viz[i] = 0;
+        for(int i = 1; i <= n; i++)
+            if(!viz[i])
                 DFS(i);
     }
+
 
     // Citeste un graf orientat de la tastatura
     // si calculeaza gradele de intrare si iesire
     void Grafuri_Orientate::Citire()
     {
-        int i, j, c;
-        cin >> m;
+        int i, j;
         for(int p = 1; p <= m; p++)
         {
             cin >> i >> j;
-            a[i][j] = 1; 
-        } 
+            a[i].push_back(j);;
+        }
         Grade();
     }
 
     // Calculeaza gradele de intrare si iesire pentru fiecare nod
     void Grafuri_Orientate::Grade()
     {
-        for(int i = 1; i <= n; i++)
-            for(int j = 1; j <= n; j++)
-            {
-                if(a[i][j])
-                    di[i] += a[i][j];
-                if(a[j][i])
-                    de[i] += a[j][i];
+        for (int i = 1; i <= n; i++)
+         {
+            for (int j : a[i]) {
+                de[i]++;   // grad extern (out-degree)
+                di[j]++;   // grad intern (in-degree)
             }
+        }
     }
 
     // Probleme-----------------------------------------------------------------
 
-    void AfisTopologic(bool nr, Grafuri_Orientate B);
-    void AfisVPrietene(Grafuri_Orientate B);
-    void SumaGrade(Grafuri_Orientate B);
-
-
     // Afisare sortare topologica sau minlex
     void AfisTopologic(bool nr, Grafuri_Orientate B)
     {
-        if(nr == 0) 
+        if(nr == 0)
         {
             B.SortTop();
             cout << "Sortare topologica: ";
@@ -265,48 +271,15 @@ public:
         }
     }
 
-    // Afisare perechi de noduri prietene
-    void AfisVPrietene(Grafuri_Orientate B)
-    {
-        int d1 = 0, d2= 0, cnt = 0;
-        for(int i = 1; i <= B.Size(); i++)
-            for(int j = 1 + i; j <= B.Size(); j++)
-            {
-                B.BFS(i);
-                d1 = B.Distanta(j);
-                B.Reset();
-                B.BFS(j);
-                d2 = B.Distanta(i);
-                if(d1 == d2 && d1 != 0){
-                    cnt = 1;
-                    cout << i << " " << j << "\n";
-                }
-                B.Reset();
-            }
-        if(cnt == 0)
-            cout << "Nu exista" << "\n";
-    }
-
-    // Afisare noduri cu grade de intrare si iesire egale
-    void SumaGrade(Grafuri_Orientate B)
-    {
-        int s = 0;
-        for(int i = 1; i <= B.Size(); i++)
-            if(B.Dintern(i) != 0 && B.Dextern(i) == B.Dintern(i))
-                s++;
-        cout << s << "\n";
-        for(int i = 1; i <= B.Size(); i++)
-            if(B.Dextern(i) != 0 && B.Dextern(i) == B.Dintern(i))
-                cout << i << " ";
-    }
 
 int main()
 {
-    int n;
-    cin >> n;
-    Grafuri_Orientate graf(n);
-    graf.Citire();
-    AfisTopologic(0, graf); 
-
+    int n, m;
+    fin >> n >> m;
+    Grafuri_Orientate graf(n, m);
+    graf.Citire("topsort.in");
+    graf.SortTop();
+    for(int i = graf.Size(); i >= 1; i--)
+        fout << graf.VTopologic(i) << " ";
     return 0;
 }
