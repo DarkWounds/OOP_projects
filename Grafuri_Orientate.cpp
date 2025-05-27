@@ -251,7 +251,7 @@ public:
     // Probleme-----------------------------------------------------------------
 
     // Afisare sortare topologica sau minlex
-    void AfisTopologic(bool nr, Grafuri_Orientate B)
+    /*void AfisTopologic(bool nr, Grafuri_Orientate B)
     {
         if(nr == 0)
         {
@@ -269,8 +269,7 @@ public:
                 cout << B.Viz(i) << " ";
             cout << "\n";
         }
-    }
-
+    }*/
 
 int main()
 {
@@ -278,6 +277,35 @@ int main()
     fin >> n >> m;
     Grafuri_Orientate graf(n, m);
     graf.Citire("topsort.in");
+    //Grade2
+    /**int s = 0;
+    for(int i = 1; i <= graf.Size(); i++)
+        if(graf.Dintern(i) != 0 && graf.Dextern(i) == graf.Dintern(i))
+                s++;
+    cout << s << "\n";
+    for(int i = 1; i <= graf.Size(); i++)
+        if(graf.Dextern(i) != 0 && graf.Dextern(i) == graf.Dintern(i))
+            cout << i << " ";
+    cout << "\n";*/
+    //Afis prietene
+    /**int d1 = 0, d2= 0, cnt = 0;
+        for(int i = 1; i <= graf.Size(); i++)
+            for(int j = 1 + i; j <= graf.Size(); j++)
+            {
+                graf.BFS(i);
+                d1 = graf.Distanta(j);
+                graf.Reset();
+                graf.BFS(j);
+                d2 = graf.Distanta(i);
+                if(d1 == d2 && d1 != 0){
+                    cnt = 1;
+                    cout << i << " " << j << "\n";
+                }
+                graf.Reset();
+            }
+        if(cnt == 0)
+            cout << "Nu exista" << "\n";**/
+    ///
     graf.SortTop();
     for(int i = graf.Size(); i >= 1; i--)
         fout << graf.VTopologic(i) << " ";
