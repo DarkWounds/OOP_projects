@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-#define Marime 1003
+#define Marime 100003
 
 using namespace std;
 
@@ -39,7 +39,6 @@ public:
     int VTopologic(int i);
     int Dextern(int i);
     int Dintern(int i);
-
 };
 
     /// Constructor pentru Grafuri_Orientate
@@ -233,15 +232,14 @@ int main()
     
     ///Grade2--------------------------------
 
-    /**graf.Citire();
-    graf.Grade();
+    graf.Citire();
     int s = 0;
     for(int i = 1; i <= graf.Size(); i++)
         if(graf.Dintern(i) != 0 && graf.Dextern(i) == graf.Dintern(i)) s++;
     cout << s << "\n";
     for(int i = 1; i <= graf.Size(); i++)
         if(graf.Dextern(i) != 0 && graf.Dextern(i) == graf.Dintern(i))  cout << i << " ";
-    cout << "\n";*/
+    cout << "\n";
 
     ///VarfuriPrietene--------------------------
 
@@ -265,10 +263,10 @@ int main()
     if(cnt == 0)
         cout << "Nu exista" << "\n";*/
 
-    /// TopSort --------------------Marime = 200003
-    graf.Citire("topsort.in");
+    /// TopSort --------------------
+    /**graf.Citire("topsort.in");
     graf.SortTop();
     for(int i = graf.Size(); i >= 1; i--)
-        fout << graf.VTopologic(i) << " ";
+        fout << graf.VTopologic(i) << " ";*/
     return 0;
 }
