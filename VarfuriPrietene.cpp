@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-#define Marime 200003
+#define Marime 1003
 
 using namespace std;
 
@@ -46,7 +46,7 @@ public:
 };
 
     //Operatorul de atribuire pentru Grafuri_Orientate
-    
+
     Grafuri_Orientate& Grafuri_Orientate::operator=(const Grafuri_Orientate& B)
     {
         n = B.n;
@@ -158,7 +158,7 @@ public:
     // si distante
     void Grafuri_Orientate::Clear()
     {
-        for(int i = 1; i <= n; i++) 
+        for(int i = 1; i <= n; i++)
         {
             a[i].clear();
             viz[i] = de[i] = di[i] = 0;
@@ -176,7 +176,7 @@ public:
     void Grafuri_Orientate::BFS(int k)
     {
         queue<int> q;
-        for(int i = 1; i <= n; i++) 
+        for(int i = 1; i <= n; i++)
         {
             viz[i] = 0;
             d[i] = 0;

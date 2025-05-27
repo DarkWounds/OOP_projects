@@ -3,14 +3,14 @@
     "tasks": [
         {
             "type": "cppbuild",
-            "label": "C/C++: g++.exe build Grafuri_Orientate.cpp",
+            "label": "C/C++: g++.exe build VarfuriPrietene.cpp",
             "command": "C:\\msys64\\ucrt64\\bin\\g++.exe",
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
-                "${workspaceFolder}\\Grafuri_Orientate.cpp",
+                "${workspaceFolder}\\VarfuriPrietene.cpp",
                 "-o",
-                "${workspaceFolder}\\Grafuri_Orientate.exe"
+                "${workspaceFolder}\\VarfuriPrietene.exe"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
