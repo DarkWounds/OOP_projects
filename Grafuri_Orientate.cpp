@@ -9,7 +9,7 @@ ofstream fout("topsort.out");
 class Grafuri_Orientate
 {
 private:
-    vector<int> *a; ///Matrice de adiacenta
+    vector<int> a[Marime]; ///Matrice de adiacenta
     int * viz; ///Vector de vizitare
     int n, m, * d; ///Numarul de noduri, numarul de muchii si vectorul de distante
     int * de, * di; ///Grad extern si intern
@@ -46,13 +46,14 @@ public:
 };
 
     //Operatorul de atribuire pentru Grafuri_Orientate
+    
     Grafuri_Orientate& Grafuri_Orientate::operator=(const Grafuri_Orientate& B)
     {
-            n = B.n;
-            for (int i = 1; i <= n; i++)
-                for (int j = 1; j <= n; j++)
-                    a[i][j] = B.a[i][j];
-            return *this;
+        n = B.n;
+        m = B.m;
+        for (int i = 1; i <= n; ++i)
+            a[i] = B.a[i];
+        return *this;
     }
 
     // Constructor pentru Grafuri_Orientate
@@ -61,7 +62,7 @@ public:
         n = N;
         m = M;
         d = new int[n + 1];
-        a = new vector<int>[n + 1]; // modificare aici!
+        // a este deja declarat ca vector<int> a[Marime];
         de = new int[n + 1];
         di = new int[n + 1];
         viz = new int[n + 1];
@@ -73,7 +74,7 @@ public:
    /*Grafuri_Orientate::~Grafuri_Orientate()
     {
         cout << "Destructor called\n"; // Adaugă această linie pentru test
-        delete[] a;
+        // nu mai este nevoie de delete[] a;
         delete[] de;
         delete[] di;
         delete[] viz;
@@ -91,13 +92,20 @@ public:
     {
         ifstream fin_local(fisIn);
         int i, j;
+        fin_local >> n >> m; // Citeste numarul de noduri si muchii
+        // Realocam vectorii pentru noul n
+        delete[] viz;
+        viz = new int[n + 1];
+        for (int i = 0; i <= n; ++i)
+            viz[i] = v[i] = 0;
+        for (int idx = 0; idx < Marime; ++idx)
+            a[idx].clear();
         for(int p = 1; p <= m; p++)
         {
             fin_local >> i >> j;
             a[i].push_back(j);
         }
         fin_local.close();
-        Grade();
     }
 
     //Returneaza nodul i in urma sortarii topologice
@@ -152,9 +160,11 @@ public:
     // si distante
     void Grafuri_Orientate::Clear()
     {
-        for(int i = 1; i <= n; i++)
-            for(int j = 1; j <= n; j++)
-                a[i][j] = viz[i] = de[i] = di[i] = 0;
+        for(int i = 1; i <= n; i++) 
+        {
+            a[i].clear();
+            viz[i] = de[i] = di[i] = 0;
+        }
     }
 
     //Reseteaza vectorii de vizitare si distante
@@ -167,18 +177,24 @@ public:
     //Parcurgere in latime (Breadth First Search)
     void Grafuri_Orientate::BFS(int k)
     {
-        int q[103], ul, pr;
-        pr = ul = 1; q[ul] = k;
-        d[k] = 0; viz[k] = 1;
-        while(pr <= ul)
+        queue<int> q;
+        for(int i = 1; i <= n; i++) 
         {
-            k = q[pr++];
-            for(int i = 1; i <= n; i++)
-                if(a[k][i] && !Viz(i))
+            viz[i] = 0;
+            d[i] = 0;
+        }
+        q.push(k);
+        d[k] = 0;
+        viz[k] = 1;
+        while(!q.empty())
+        {
+            int node = q.front(); q.pop();
+            for (int i : a[node])
+                if (!viz[i])
                 {
                     viz[i] = 1;
-                    q[++ul] = i;
-                    d[i] = d[k] + 1;
+                    q.push(i);
+                    d[i] = d[node] + 1;
                 }
         }
     }
@@ -228,12 +244,19 @@ public:
     void Grafuri_Orientate::Citire()
     {
         int i, j;
+        cin >> n >> m; // Citeste numarul de noduri si muchii
+        // Realocam vectorii pentru noul n
+        delete[] viz;
+        viz = new int[n + 1];
+        for (int i = 0; i <= n; ++i)
+            viz[i] = v[i] = 0;
+        for (int idx = 0; idx < Marime; ++idx)
+            a[idx].clear();
         for(int p = 1; p <= m; p++)
         {
             cin >> i >> j;
-            a[i].push_back(j);;
+            a[i].push_back(j);
         }
-        Grade();
     }
 
     // Calculeaza gradele de intrare si iesire pentru fiecare nod
@@ -273,12 +296,11 @@ public:
 
 int main()
 {
-    int n, m;
-    fin >> n >> m;
-    Grafuri_Orientate graf(n, m);
-    graf.Citire("topsort.in");
+    Grafuri_Orientate graf(0, 0);
     //Grade2
-    /**int s = 0;
+     /**
+     graf.Citire();
+     int s = 0;
     for(int i = 1; i <= graf.Size(); i++)
         if(graf.Dintern(i) != 0 && graf.Dextern(i) == graf.Dintern(i))
                 s++;
@@ -287,27 +309,34 @@ int main()
         if(graf.Dextern(i) != 0 && graf.Dextern(i) == graf.Dintern(i))
             cout << i << " ";
     cout << "\n";*/
+
     //Afis prietene
-    /**int d1 = 0, d2= 0, cnt = 0;
-        for(int i = 1; i <= graf.Size(); i++)
-            for(int j = 1 + i; j <= graf.Size(); j++)
+
+    graf.Citire();
+    int d1 = 0, d2= 0, cnt = 0;
+    for(int i = 1; i <= graf.Size(); i++)
+        for(int j = 1 + i; j <= graf.Size(); j++)
+        {
+            graf.BFS(i);
+            d1 = graf.Distanta(j);
+            graf.Reset();
+            graf.BFS(j);
+            d2 = graf.Distanta(i);
+            if(d1 == d2 && d1 != 0)
             {
-                graf.BFS(i);
-                d1 = graf.Distanta(j);
-                graf.Reset();
-                graf.BFS(j);
-                d2 = graf.Distanta(i);
-                if(d1 == d2 && d1 != 0){
-                    cnt = 1;
-                    cout << i << " " << j << "\n";
-                }
-                graf.Reset();
+                cnt = 1;
+                cout << i << " " << j << "\n";
             }
+            graf.Reset();
+        }
         if(cnt == 0)
-            cout << "Nu exista" << "\n";**/
-    ///
+            cout << "Nu exista" << "\n";
+
+    /// Sortare topologica
+    /**Grafuri_Orientate graf(0, 0);
+    graf.Citire("topsort.in");
     graf.SortTop();
     for(int i = graf.Size(); i >= 1; i--)
-        fout << graf.VTopologic(i) << " ";
+        fout << graf.VTopologic(i) << " ";*/
     return 0;
 }
