@@ -18,7 +18,7 @@
   <component name="ChangeListManager">
     <list default="true" id="0ea4b593-726e-46b0-8cd9-b9943c2d5c96" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Grafuri_Orientate.exe" beforeDir="false" afterPath="$PROJECT_DIR$/Grafuri_Orientate.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/Debug/Grafuri_Orientate.exe" beforeDir="false" afterPath="$PROJECT_DIR$/build/Debug/Grafuri_Orientate.exe" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,6 +48,14 @@
     &quot;accountId&quot;: &quot;b88129ed-db83-4fad-9ac6-fe6dccc3af9e&quot;
   }
 }</component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -58,9 +66,9 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "C/C++ File.Grafuri_Orientate.cpp.executor": "Run",
+    "C/C++ File.Grafuri_Orientate.cpp.executor": "Debug",
     "C/C++ File.Grafuri_Orientate.exe (1).executor": "Run",
-    "C/C++ File.Grafuri_Orientate.exe.executor": "Profiler",
+    "C/C++ File.Grafuri_Orientate.exe.executor": "Run",
     "C/C++ File.Grafuri_Orientate.executor": "Run",
     "RunOnceActivity.RadMigrateCodeStyle": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -120,6 +128,7 @@
       <workItem from="1757955989801" duration="286000" />
       <workItem from="1757956309761" duration="1623000" />
       <workItem from="1757958141659" duration="311000" />
+      <workItem from="1760037145542" duration="167000" />
     </task>
     <servers />
   </component>
