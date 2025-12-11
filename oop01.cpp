@@ -26,6 +26,8 @@ tipuri de acces, dar implicit accesul este public.
 */
 /// clasa numerelor rationale
 /// Q = {a/b, a,b apartin lui Z, b!=0}
+///
+
 class Rational
 {
 public:
