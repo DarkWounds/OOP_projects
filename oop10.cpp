@@ -125,7 +125,7 @@ public:
     */
     void Add(int k, int x)
     {
-        if (k <= 1)
+        if (k <= 1 || head == NULL)
         {
             Add(x);
             return;
@@ -177,7 +177,9 @@ public:
     /// atribuirea
     LSI& operator=(LSI &A)
     {
-        head = NULL;
+        if (this == &A) return *this;
+        while (n > 0) /// stergem nodurile vechi (si n devine 0)
+            Erase();
         for (int i = 1; i <= A.Count(); i++)
             AddEnd(A[i]);
         return *this;

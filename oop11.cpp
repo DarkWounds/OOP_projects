@@ -53,7 +53,7 @@ public:
             {
                 C.a[i][j] = 0;
                 for (int k = 1; k <= n; k++)
-                    C.a[i][j] += a[i][j] * B.a[i][j];
+                    C.a[i][j] += a[i][k] * B.a[k][j];
             }
         return C;
     }

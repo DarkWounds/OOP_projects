@@ -102,6 +102,7 @@ public:
             a = new int[N];
             for (int i = 0; i < n; i++)
                 a[i] = b[i];
+            delete[] b; /// eliberam vectorul auxiliar
         }
         a[n++] = x;
     }
@@ -162,6 +163,7 @@ public:
             a[p] = val;
             for (i = p; i < n; i++)
                 a[i + 1] = b[i];
+            delete[] b; /// eliberam vectorul auxiliar
             n++;
         }
     }

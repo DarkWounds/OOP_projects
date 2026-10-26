@@ -69,8 +69,9 @@ public:
 
     void Impartire(Complex z1, Complex z2)
     {
-        re = (z1.re * z2.re + z1.im * z2.im) / ModulP();
-        im = (z1.im * z2.re - z1.re * z2.im) / ModulP();
+        double d = z2.ModulP(); /// |z2|^2, calculat o singura data
+        re = (z1.re * z2.re + z1.im * z2.im) / d;
+        im = (z1.im * z2.re - z1.re * z2.im) / d;
     }
 
     double Modul()
